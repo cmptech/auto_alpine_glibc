@@ -5,8 +5,10 @@ FROM alpine
 #&& echo "http://nl.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories \
 #&& echo "nameserver 8.8.8.8" >> /etc/resolv.conf &&
 
+ADD libstdc++.so.6.0.25 /usr/lib/libstdc++.so.6
+
 RUN apk update \
-&& apk add libstdc++ \
+&& apk add libgcc \
 && wget https://www.archlinux.org/packages/core/x86_64/glibc/download/ -O glibc.pkg.tar.xz \
 && tar xJvf glibc.pkg.tar.xz -C / \
 && rm -f glibc.pkg.tar.xz \
