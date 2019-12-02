@@ -1,6 +1,5 @@
 #FROM alpine:edge
-#FROM alpine
-FROM frolvlad/alpine-glibc
+FROM alpine
 
 #RUN echo "http://nl.alpinelinux.org/alpine/latest-stable/main" > /etc/apk/repositories \
 #&& echo "http://nl.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories \
@@ -13,24 +12,19 @@ FROM frolvlad/alpine-glibc
 #&& rm -rf /var/cache/apk/ && mkdir -p /var/cache/apk && rm -rf /tmp/*
 
 RUN apk update \
-&& apk add libstdc++ \
+&& apk add --no-cache libgcc libstdc++ \
+&& wget https://www.archlinux.org/packages/core/x86_64/glibc/download/ -O glibc.pkg.tar.xz \
+&& tar xJvf glibc.pkg.tar.xz -C / \
+&& rm -f glibc.pkg.tar.xz \
 && ln -s /usr/lib /lib64 \
+&& ln -s /lib/libc.musl-x86_64.so.1 /lib64/ \
+&& wget https://www.archlinux.org/packages/core/x86_64/gcc-libs/download/ -O gcc-libs.pkg.tar.xz \
+&& tar xJvf gcc-libs.pkg.tar.xz -C /root/ \
+&& rm -f /usr/lib/libstdc++* \
+&& cp -dv /root/usr/lib/libstdc++* /usr/lib/ \
+&& rm -f gcc-libs.pkg.tar.xz \
+&& rm -rf /root/* \
 && rm -rf /var/cache/apk/ && mkdir -p /var/cache/apk && rm -rf /tmp/*
-
-#RUN apk update \
-#&& apk add --no-cache libgcc libstdc++ \
-#&& wget https://www.archlinux.org/packages/core/x86_64/glibc/download/ -O glibc.pkg.tar.xz \
-#&& tar xJvf glibc.pkg.tar.xz -C / \
-#&& rm -f glibc.pkg.tar.xz \
-#&& ln -s /usr/lib /lib64 \
-#&& ln -s /lib/libc.musl-x86_64.so.1 /lib64/ \
-#&& wget https://www.archlinux.org/packages/core/x86_64/gcc-libs/download/ -O gcc-libs.pkg.tar.xz \
-#&& tar xJvf gcc-libs.pkg.tar.xz -C /root/ \
-#&& rm -f /usr/lib/libstdc++* \
-#&& cp -dv /root/usr/lib/libstdc++* /usr/lib/ \
-#&& rm -f gcc-libs.pkg.tar.xz \
-#&& rm -rf /root/* \
-#&& rm -rf /var/cache/apk/ && mkdir -p /var/cache/apk && rm -rf /tmp/*
 
 
 #&& cp -dv /root/usr/lib/libgcc** /usr/lib/ \
@@ -59,5 +53,4 @@ RUN apk update \
 
 
 # the 6.0.22 (from libgcc) will report some warning (no version information available) for node
-# the 6.0.25 taken from ubuntu ...
-ADD libstdc++.so.6.0.25 /usr/lib/libstdc++.so.6
+# ADD libstdc++.so.6.0.25 /usr/lib/libstdc++.so.6
