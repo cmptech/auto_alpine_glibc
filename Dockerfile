@@ -14,5 +14,5 @@ RUN apk update \
 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ \
 && rm -rf /var/cache/apk/ && mkdir -p /var/cache/apk && rm -rf /tmp/*
 
-# the 6.0.22 will report some warning..
+# the 6.0.22 (from libgcc) will report some warning for node
 ADD libstdc++.so.6.0.25 /usr/lib/libstdc++.so.6
