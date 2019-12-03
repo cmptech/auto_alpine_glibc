@@ -1,2 +1,0 @@
-# /gh_token=??? /gh_url=???
-sh docker_node.sh gunfire $*
