@@ -14,6 +14,7 @@ FROM frolvlad/alpine-glibc
 
 RUN apk update \
 && apk add libstdc++ \
+&& rm -f /usr/lib/libstdc++* \
 && ln -s /usr/lib /lib64 \
 && rm -rf /var/cache/apk/ && mkdir -p /var/cache/apk && rm -rf /tmp/*
 
