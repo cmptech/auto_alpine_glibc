@@ -1,3 +1,5 @@
 node-*
 *.tar.xz
 wget-log
+node_modules
+package-lock.json
