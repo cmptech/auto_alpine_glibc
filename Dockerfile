@@ -60,5 +60,6 @@ RUN apk update \
 
 
 # the 6.0.22 (from libgcc) will report some warning (no version information available) for node
-# the 6.0.25 taken from ubuntu ...
+# the 6.0.25 taken from ubuntu：
+# docker run -v $PWD:/work/ -w /work/ ubuntu sh -c "cp /usr/lib/x86_64-linux-gnu/libstdc++* /work/"
 ADD libstdc++.so.6.0.25 /usr/lib/libstdc++.so.6
